@@ -31,11 +31,23 @@ export class FileManagerComponent implements OnInit {
     return new Array(rating);
   }
 
+  onFileChange(event: any, key: string) {
+    const file = event.target.files[0];
+    if (file) {
+      this.newFile[key] = file;
+    } else {
+      this.newFile[key] = null;
+    }
+  }
+  
   submitForm() {
     console.log('Submitting form...');
     console.log('New File Data:', this.newFile);
-  
-    this.serviceAuthService.createFile(this.newFile)
+    const formData = new FormData();
+    Object.keys(this.newFile).forEach(key => {
+      formData.append(key, this.newFile[key]);
+    });
+    this.serviceAuthService.createFile(formData)
       .subscribe((response: any) => {
         console.log('File created successfully:', response);
         // Optionally, refresh the file list
