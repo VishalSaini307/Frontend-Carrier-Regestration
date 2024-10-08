@@ -20,8 +20,8 @@ export class ServiceAuthService {
   drivercreateUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/driverList/driver/create'; // Add create API URL
   driverapplicationapiUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/driverApplication/driverapplication';
   driverapplicationcreateUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/driverApplivation/driverapplication/create'; // Add create API URL
-  fileapiUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/customerdata';
-  filecreateUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/customerdata/create';
+  fileapiUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/filemanager';
+  filecreateUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/filemanager/create';
   getUsersapiUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/getAll';
   passwordUpdateUrl: string = 'https://compliance-backend-debcf19b5689.herokuapp.com/api/change-password';
   updateURL = 'https://compliance-backend-debcf19b5689.herokuapp.com'
@@ -41,6 +41,10 @@ export class ServiceAuthService {
 
 
 
+  dotApi: string = "https://compliance-backend-debcf19b5689.herokuapp.com/api/dotdata"
+  getDotData: string = "https://compliance-backend-debcf19b5689.herokuapp.com/api/dotdata"
+  
+  updateCompanyProfileUrl:string="https://compliance-backend-debcf19b5689.herokuapp.com/api/company/update"
 
   constructor(private http: HttpClient) { }
 
@@ -100,16 +104,16 @@ export class ServiceAuthService {
     return this.http.get(`${this.getUsersapiUrl}`, { headers });
   }
 
-  
- // Delete User
- deleteUser(id: string) {
+
+// Delete User
+deleteUser(id: string) {
   const token = this.getToken();
   if (!token) {
     throw new Error('No token stored');
   }
-  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const headers = new HttpHeaders().set( 'Authorization', `Bearer ${token}`);
 
-  return this.http.delete(`${this.getUsersapiUrl}/${id}`, { headers });
+  return this.http.delete(`${this.getUsersapiUrl}/${id}`, { headers });
 }
 
   //Create Trucks
@@ -398,9 +402,40 @@ export class ServiceAuthService {
     return this.http.get<any>(url, { headers });
   }
 
+//Create dot
+createDotCompany(companyData: any) {
+  const token = this.getToken();
+  if (!token) {
+    throw new Error('No token stored');
+  }
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+  return this.http.post(this.dotApi, companyData, { headers });
+  }
+
+
+//Get dots Api
+//Get Dot NumberBydata
+getByDotnumber(dot: string) {
+  const token = this.getToken();
+  if (!token) {
+    throw new Error('No token stored');
+  }
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+  const url = `${this.getDotData}/${dot}`;
+  console.log('Fetching Dot by ID with URL:', url); // Log the URL being called
+  return this.http.get<any>(url, { headers });
+  }
+
+
+updateCompanyProfile(id: string , companyData: any){
+  const token = this. getToken();
+  if (!token) {
+    throw new Error('No toekn stored')
+  }
+  const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`)
+
+  return this.http.put(`${this.updateCompanyProfileUrl}/${id}`,companyData ,{headers});
+}
 
 }
- 
- 
- 
- 
