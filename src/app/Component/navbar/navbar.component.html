@@ -1,0 +1,131 @@
+<header id="header" class="header d-flex align-items-center justify-content-between">
+  <div class="d-flex align-items-center justify-content-between">
+    <a routerLink="/dashboard" class="logo d-flex align-items-center" style="margin-left: 8px;">
+      <img src="assets/img/3pltek-logo.png" alt="3pltek-logo">
+    </a>
+  </div>
+
+  <div class="row">
+    <nav class="navbar navbar-expand-lg navbar-light">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item" *ngIf="selectedCompany">
+            <a class="nav-link" (click)="goToCompanyProfile()" style="cursor: pointer;"  routerLinkActive="active">Company Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/truck-list" routerLinkActive="active">Truck List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/trailer-list" routerLinkActive="active">Trailer List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/driver-list" routerLinkActive="active">Driver List</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/driver-application" routerLinkActive="active">Driver Application</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/file-manager" routerLinkActive="active">File Manager</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/users" routerLinkActive="active">Users</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  
+
+  <nav class="header-nav">
+    <ul class="d-flex align-items-center">
+      <li class="nav-item d-block d-lg-none">
+        <a class="nav-link nav-icon search-bar-toggle " href="#">
+          <i class="bi bi-search"></i>
+        </a>
+      </li>
+      <li class="nav-item dropdown pe-3">
+        <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+          <img src="assets/img/profile-img.jpg" alt="Profile" class="rounded-circle">
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+          <li class="dropdown-header">
+            <h6>{{name}}</h6>
+           
+          </li>
+          <li><hr class="dropdown-divider"></li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" routerLink="/users-profile-view">
+              <i class="bi bi-person"></i>
+              <span>My Profile</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" routerLink="/users-profile-view">
+              <i class="bi bi-gear"></i>
+              <span>Account Settings</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" routerLink="/help">
+              <i class="bi bi-question-circle"></i>
+              <span>Need Help?</span>
+            </a>
+          </li>
+          <li>
+            <a class="dropdown-item d-flex align-items-center" routerLink="/login">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Sign Out</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  
+</header>
+
+
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <div class="pro-sidebar-logo" style="display: flex; align-items: center; gap: 13px;">
+        <div class="icon" style="width: 35px; min-width: 35px; height: 35px; min-height: 35px; display: flex; align-items: center; justify-content: center;">
+        <img src="assets/img/mobile-logo.png" class="img-fluid" style="max-width: 80% !important;"></div>
+        <div class="icon-text"><img src="assets/img/logo-text.png" class="img-fluid" style="max-width: 80% !important;"></div>
+    </div>
+  </div>
+  <ul class="list-unstyled components">
+    <li class="pb-3" *ngIf="selectedCompany">
+      <a (click)="goToCompanyProfile()"><i class="fa fa-users" aria-hidden="true"></i><span class="ms-2"style="cursor: pointer;">Company Profile</span></a>
+    </li>
+    <li class="pb-3">
+      <a  routerLink="/truck-list"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ms-2">Truck List</span></a>
+    </li>
+    <li class="pb-3">
+      <a routerLink="/trailer-list"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ms-2">Trailer List</span></a>
+    </li>
+    <li class="pb-3">
+      <a  routerLink="/driver-list"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ms-2">Driver List</span></a>
+    </li>
+    <!-- <li class="pb-3">
+      <a routerLink="/pre-screening-list"><i class="fa fa-search"></i><span class="ms-2">Pre Screening</span></a>
+    </li> -->
+    <li class="pb-3">
+      <a routerLink="/driver-application"><i class="fa fa-file"></i><span class="ms-2">Driver Application</span></a>
+    </li>
+    <li class="pb-3">
+      <a  routerLink="/file-manager"><i class="fa fa-folder"></i><span class="ms-2">File Manager</span></a>
+    </li>
+    <!-- <li class="pb-3">
+      <a  routerLink="password-manager"><i class="fa fa-lock"></i><span class="ms-2">Password Manager</span></a>
+    </li> -->
+    <li class="pb-3">
+      <a  routerLink="/users"><i class="fa fa-user" aria-hidden="true"></i><span class="ms-2">Users</span></a>
+    </li>
+  </ul>
+  </nav>
+
+
+<!-- we need to change colour hover in company profile -->
