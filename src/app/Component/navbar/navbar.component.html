@@ -12,9 +12,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
+
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+          </li>
           <li class="nav-item" *ngIf="selectedCompany">
             <a class="nav-link" (click)="goToCompanyProfile()" style="cursor: pointer;"  routerLinkActive="active">Company Profile</a>
-          </li>
+           </li>
           <li class="nav-item">
             <a class="nav-link" routerLink="/truck-list" routerLinkActive="active">Truck List</a>
           </li>
@@ -100,6 +104,7 @@
     <li class="pb-3" *ngIf="selectedCompany">
       <a (click)="goToCompanyProfile()"><i class="fa fa-users" aria-hidden="true"></i><span class="ms-2"style="cursor: pointer;">Company Profile</span></a>
     </li>
+   
     <li class="pb-3">
       <a  routerLink="/truck-list"><i class="fa fa-list-alt" aria-hidden="true"></i><span class="ms-2">Truck List</span></a>
     </li>

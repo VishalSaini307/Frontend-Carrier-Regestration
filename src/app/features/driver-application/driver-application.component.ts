@@ -1,63 +1,132 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ServiceAuthService } from '../../service/service-auth.service';
-import { ChangeDetectorRef } from '@angular/core';
-
 
 @Component({
   selector: 'app-driver-application',
   templateUrl: './driver-application.component.html',
-  styleUrl: './driver-application.component.css'
+  styleUrls: ['./driver-application.component.css'],
 })
-
 export class DriverApplicationComponent implements OnInit {
-  driverapplication: any[] = [];
-  newDriverapplication: any = {};
-  filteredDriverapplication : any[] = [];
-  loadDriverapplication: any;
 
-  constructor(private serviceAuthService: ServiceAuthService, private cdr: ChangeDetectorRef) { }
 
-  ngOnInit(): void {
-    this.loadDriverapplication();
+  onSubmit() {
+    // Implement your submission logic here, e.g., form validation, sending data to the server, etc.
+    console.log('Form submitted');
+    // You can also close the offcanvas here if needed, using Bootstrap's JavaScript methods or Angular logic.
   }
+  driverApplicationForm: FormGroup;
+  driverName: string = '';
+  applicantSignature: string = '';
+  reviewDate: string = '';
+  reviewedBySignature: string = '';
+  motorCarrierAddress: string = '';
 
-  loadDrivers() {
-    this.serviceAuthService.getDriverapplicationFromAPI().subscribe((driverapplication: any) => {
-      // console.log(driverapplication)
-      this.driverapplication = driverapplication;
-      this.filteredDriverapplication = driverapplication;
-    }, error => {
-      console.error(error);
+  // Define properties for fields used in the template
+  certificateFields = [
+    { label: 'Driver’s Name', value: '' },
+    { label: 'Social Security Number', value: '' },
+    { label: 'Operator’s License Number', value: '' },
+    { label: 'State', value: '' },
+    { label: 'Type of Power Unit', value: '' },
+    { label: 'Type of Trailer(s)', value: '' },
+    { label: 'Type of Bus', value: '' },
+  ];
+
+  violationRows = [
+    { date: '', offense: '', location: '', typeOfVehicle: '' },
+    { date: '', offense: '', location: '', typeOfVehicle: '' },
+    { date: '', offense: '', location: '', typeOfVehicle: '' },
+    { date: '', offense: '', location: '', typeOfVehicle: '' }
+  ];
+
+  dateFields = [
+    { label: 'Date of Certification', value: '' },
+    { label: 'Driver’s Signature', value: '' },
+  ];
+
+  driverFields = [
+    { label: 'Full Name', value: '' },
+    { label: 'License Number', value: '' },
+    { label: 'State Issued', value: '' },
+  ];
+
+  testFields = [
+    { label: 'Road Test', value: '' },
+    { label: 'Written Test', value: '' },
+  ];
+
+  // Visibility controls
+  isContentVisible: boolean = false;
+  isSecondContentVisible: boolean = false;
+  isTrafficViolationsVisible: boolean = false;
+  isExplanationVisible: boolean = false;
+  selectedOption: 'yes' | 'no' | null = null;
+  isOffcanvasOpen: boolean = false;
+
+  constructor(
+    private fb: FormBuilder,
+    private serviceAuthService: ServiceAuthService
+  ) {
+    // Initialize the form
+    this.driverApplicationForm = this.fb.group({
+      to: ['', Validators.required],
+      date: ['', Validators.required],
+      telephone: ['', Validators.required],
+      fax: ['', Validators.required],
+      applicantSignature: ['', Validators.required],
+      witnessSignature: ['', Validators.required],
+      witnessDate: ['', Validators.required],
     });
   }
 
-  filterDriverapplication(filterType: string) {
-    // console.log(filterType)
-    if (filterType === 'all') {
-      this.filteredDriverapplication = this.driverapplication;
-    } else if (filterType === 'nonCompliant') {
-      this.filteredDriverapplication = this.driverapplication.filter(driverapplication => driverapplication.status === 'APPROVED');
-    } else if (filterType === 'compliant') {
-      this.filteredDriverapplication = this.driverapplication.filter(driverapplication => driverapplication.status === 'PENDING');
-    } else if (filterType === 'expiring') {
-      this.filteredDriverapplication = this.driverapplication.filter(driverapplication => driverapplication.status === 'EXPIRING');
+  ngOnInit(): void {}
+
+  toggleContent(): void {
+    this.isContentVisible = !this.isContentVisible;
+    this.isSecondContentVisible = false;
+  }
+
+  toggleSecondContent(): void {
+    this.isSecondContentVisible = !this.isSecondContentVisible;
+    this.isContentVisible = false;
+  }
+
+  toggleTrafficViolations(): void {
+    this.isTrafficViolationsVisible = !this.isTrafficViolationsVisible;
+  }
+
+  nextPage(): void {
+    this.isOffcanvasOpen = true;
+  }
+
+  closeOffcanvas(): void {
+    this.isOffcanvasOpen = false;
+  }
+
+  onOptionChange(option: 'yes' | 'no') {
+    if (this.selectedOption === option) {
+      this.isExplanationVisible = !this.isExplanationVisible;
+    } else {
+      this.selectedOption = option;
+      this.isExplanationVisible = true;
     }
-    // console.log(this.filteredDriverapplication)
-    this.cdr.detectChanges();
   }
 
   submitForm() {
-    console.log('Submitting form...');
-    console.log('New Driverapplication Data:', this.newDriverapplication);
-
-    this.serviceAuthService.createDriverapplication(this.newDriverapplication).subscribe((response: any) => {
-      console.log('Driverapplication created successfully:', response);
-      // Refresh the driver application
-      this.loadDriverapplication();
-      // Clear the form after submission
-      this.newDriverapplication = {};
-    }, error => {
-      console.error('Error creating driverapplication:', error);
-    });
-  }
+    if (this.driverApplicationForm.valid) {
+      console.log('Form Submitted:', this.driverApplicationForm.value);
+      this.serviceAuthService.createDriverapplication(this.driverApplicationForm.value).subscribe(
+        response => {
+          console.log('Driver application created successfully:', response);
+          this.driverApplicationForm.reset();
+        },
+        error => {
+          console.error('Error creating driver application:', error);
+        }
+      );
+    } else {
+      console.log('Form is invalid');
+    }
+  }
 }

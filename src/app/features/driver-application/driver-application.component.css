@@ -1,0 +1,29 @@
+/* Optional: CSS to style the collapsible behavior */
+.collapsible {
+    cursor: pointer;
+    padding: 10px;
+    text-align: left;
+    border: none;
+    outline: none;
+    font-size: 15px;
+  }
+
+/* Fix checkbox size regardless of screen size */
+.form-check-input {
+  min-width: 20px; /* Set a minimum width for the checkbox */
+  min-height: 20px; /* Set a minimum height for the checkbox */
+}
+
+.container {
+  max-width: 100%; /* Set to 100% to span full width */
+  margin: 0; /* Remove default margin */
+  padding: 20px; /* Add padding as needed */
+  text-align: left; /* Align text to the left */
+  width: 100%; /* Ensure the container takes full width */
+
+
+}
+
+.margin-left-20{
+    margin-left: 10px;
+}
